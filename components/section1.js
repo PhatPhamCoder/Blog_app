@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable jsx-a11y/alt-text */
 import Image from "next/image";
 import Link from "next/link";
@@ -6,8 +7,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay } from "swiper";
 // Import Swiper styles
 import "swiper/css";
-
+import fetcher from "@/lib/fetcher";
+import Spinner from "./_child/spinner";
+import Error from "./_child/error";
 export default function section1() {
+  const { data, isLoading, isError } = fetcher("api/posts");
+  if (isLoading) return <Spinner></Spinner>;
+  if (isError) return <Error></Error>;
   SwiperCore.use([Autoplay]);
   const bg = {
     background: "url('/images/banner.png') no-repeat",
@@ -24,25 +30,26 @@ export default function section1() {
           }}
           loop={true}
         >
-          <SwiperSlide> {Slide()}</SwiperSlide>
-          <SwiperSlide> {Slide()}</SwiperSlide>
-          <SwiperSlide> {Slide()}</SwiperSlide>
-          <SwiperSlide> {Slide()}</SwiperSlide>
-          <SwiperSlide> {Slide()}</SwiperSlide>
+          {data?.map((value, index) => (
+            <SwiperSlide>
+              <Slide data={value} key={index}></Slide>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </section>
   );
 }
 
-function Slide() {
+function Slide({ data }) {
+  const { id, title, img, category, published } = data;
   return (
-    <div className="grid md:grid-cols-2">
+    <div className="grid md:grid-cols-2 flex items-center">
       <div className="image">
         <Link legacyBehavior href={"/"}>
           <a>
             <Image
-              src={"/images/img1.jpg"}
+              src={img || "Unknow"}
               width={600}
               height={600}
               className="rounded-xl"
@@ -54,17 +61,19 @@ function Slide() {
         <div className="cat">
           <Link legacyBehavior href={"/"}>
             <a className="text-orange-600 hover:text-orange-800">
-              Business, travel
+              {category || "Unknow"}
             </a>
           </Link>
           <Link legacyBehavior href={"/"}>
-            <a className="text-gray-800 hover:text-gray-600">- April, 3 2023</a>
+            <a className="text-gray-800 hover:text-gray-600">
+              - {published || "Unknow"}
+            </a>
           </Link>
         </div>
         <div className="title">
           <Link legacyBehavior href={"/"}>
             <a className="text-3xl md:text-6xl font-bold text-gray-800 hover:text-gray-600">
-              Your most unhappy customer are your greatest source of learning
+              {title || "Unknow"}
             </a>
           </Link>
         </div>
