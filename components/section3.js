@@ -19,11 +19,12 @@ export default function section3() {
     <section className="container mx-auto md:px-20 py-16">
       <h1 className="font-bold text-4xl py-12 text-center">Most Popular</h1>
       <Swiper
-        slidesPerView={2}
-        autoplay={{
-          delay: 5000,
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
         }}
-        loop={true}
       >
         {data?.map((value, index) => (
           <SwiperSlide>
@@ -36,11 +37,11 @@ export default function section3() {
 }
 
 function Post({ data }) {
-  const { id, title, img, category, published } = data;
+  const { id, title, img, category, published, author } = data;
   return (
     <div className="item">
       <div className="images">
-        <Link legacyBehavior href={"/"}>
+        <Link legacyBehavior href={`/posts/${id}`}>
           <a>
             <Image
               src={img || "unknow"}
@@ -53,19 +54,19 @@ function Post({ data }) {
       </div>
       <div className="info flex justify-center flex-col py-4">
         <div className="cat">
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-orange-600 hover:text-orange-800">
               {category || "unknow"}
             </a>
           </Link>
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-gray-800 hover:text-gray-600">
               - {published || "unknow"}
             </a>
           </Link>
         </div>
         <div className="title">
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-3xl md:text-4xl font-bold text-gray-800 hover:text-gray-600">
               {title || "unknow"}
             </a>
@@ -76,9 +77,7 @@ function Post({ data }) {
           ChatGPT, the company is releasing its next-generation version of the
           technology that powers the viral chatbot tool.
         </p>
-        <h1>
-          <Author></Author>
-        </h1>
+        <h1>{author ? <Author {...author}></Author> : <></>}</h1>
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import "swiper/css";
 import fetcher from "@/lib/fetcher";
 import Spinner from "./_child/spinner";
 import Error from "./_child/error";
+
 export default function section1() {
   const { data, isLoading, isError } = fetcher("api/posts");
   if (isLoading) return <Spinner></Spinner>;
@@ -42,11 +43,11 @@ export default function section1() {
 }
 
 function Slide({ data }) {
-  const { id, title, img, category, published } = data;
+  const { id, title, img, category, published, author } = data;
   return (
-    <div className="grid md:grid-cols-2 flex items-center">
+    <div className="grid md:grid-cols-2">
       <div className="image">
-        <Link legacyBehavior href={"/"}>
+        <Link legacyBehavior href={`/posts/${id}`}>
           <a>
             <Image
               src={img || "Unknow"}
@@ -59,19 +60,19 @@ function Slide({ data }) {
       </div>
       <div className="info flex justify-center flex-col">
         <div className="cat">
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-orange-600 hover:text-orange-800">
               {category || "Unknow"}
             </a>
           </Link>
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-gray-800 hover:text-gray-600">
               - {published || "Unknow"}
             </a>
           </Link>
         </div>
         <div className="title">
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-3xl md:text-6xl font-bold text-gray-800 hover:text-gray-600">
               {title || "Unknow"}
             </a>
@@ -82,9 +83,7 @@ function Slide({ data }) {
           ChatGPT, the company is releasing its next-generation version of the
           technology that powers the viral chatbot tool.
         </p>
-        <h1>
-          <Author></Author>
-        </h1>
+        {author ? <Author {...author}></Author> : <></>}
       </div>
     </div>
   );

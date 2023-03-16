@@ -29,7 +29,7 @@ function Post({ data }) {
   return (
     <div className="item">
       <div className="images">
-        <Link legacyBehavior href={"/"}>
+        <Link legacyBehavior href={`/posts/${id}`}>
           <a>
             <Image src={img} width={500} height={350} className="rounded-xl" />
           </a>
@@ -37,24 +37,24 @@ function Post({ data }) {
       </div>
       <div className="info flex justify-center flex-col py-4">
         <div className="cat">
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-orange-600 hover:text-orange-800">
               Business, travel
             </a>
           </Link>
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-gray-800 hover:text-gray-600">- {published}</a>
           </Link>
         </div>
         <div className="title">
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-xl font-bold text-gray-800 hover:text-gray-600">
               {title}
             </a>
           </Link>
         </div>
         <p className="text-gray-500 py-3">{subtitle}</p>
-        <h1>{author ? <Author></Author> : <></>}</h1>
+        <h1>{author ? <Author {...author}></Author> : <></>}</h1>
       </div>
     </div>
   );

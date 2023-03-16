@@ -34,11 +34,11 @@ export default function section4() {
 }
 
 function Post({ data }) {
-  const { id, title, img, category, published } = data;
+  const { id, title, img, category, published, author } = data;
   return (
     <div className="flex gap-5">
       <div className="image flex flex-col justify-start">
-        <Link legacyBehavior href={"/"}>
+        <Link legacyBehavior href={`/posts/${id}`}>
           <a>
             <Image
               src={img || "No Image"}
@@ -51,23 +51,21 @@ function Post({ data }) {
       </div>
       <div className="info flex justify-center flex-col pb-4">
         <div className="cat">
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-orange-600 hover:text-orange-800">{category}</a>
           </Link>
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-gray-800 hover:text-gray-600">- {published}</a>
           </Link>
         </div>
         <div className="title">
-          <Link legacyBehavior href={"/"}>
+          <Link legacyBehavior href={`/posts/${id}`}>
             <a className="text-xl font-bold text-gray-800 hover:text-gray-600">
-              Your most unhappy customer are your greatest source of learning
+              {title}
             </a>
           </Link>
         </div>
-        <h1>
-          <Author></Author>
-        </h1>
+        <h1>{author ? <Author {...author}></Author> : <></>}</h1>
       </div>
     </div>
   );
